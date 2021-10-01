@@ -1,0 +1,381 @@
+diff --git a/Passw.py b/Passw.py
+index fc2a8af..6ed1531 100644
+--- a/Passw.py
++++ b/Passw.py
+@@ -1,44 +1,45 @@
+ def clave(password):
+ 
+-        validar=False #que se vayan cumpliendo los requisitos uno a uno.
+-        long=len(password) #Calcula la longitud de la contraseña
+-        espacio=False  #variable para identificar espacios
+-        mayuscula=False #variable para identificar letras mayúsculas
+-        minuscula=False #variable para contar identificar letras minúsculas
+-        numeros=False #variable para identificar números
+-        y=password.isalnum()#si es alfanumérica retona True
+-        correcto=True #verifica que hayan mayuscula, minuscula, numeros y no alfanuméricos
+-        
+-        for carac in password: #ciclo for que recorre caracter por caracter en la contraseña
+-
+-            if carac.isspace()==True: #Saber si el caracter es un espacio
+-                espacio=True #si encuentra un espacio se cambia el valor user
+-
+-            if carac.isupper()== True: #saber si hay mayuscula
+-                mayuscula=True #acumulador o contador de mayusculas
+-                
+-            if carac.islower()== True: #saber si hay minúsculas
+-                minuscula=True #acumulador o contador de minúsculas
+-                
+-            if carac.isdigit()== True: #saber si hay números
+-                numeros=True #acumulador o contador de numeros
+-                            
+-        if espacio==True: #hay espacios en blanco
+-                print("La contraseña no puede contener espacios")
+-        else:
+-            validar=True #se cumple el primer requisito que no hayan espacios
+-                       
+-        if long <8 and validar==True:
+-            print("Mínimo 8 caracteres")
+-            validar=False #cambia a Flase si no se cumple el requisito móinimo de caracteres
+-
+-        if mayuscula == True and minuscula ==True and numeros == True and y== False and validar ==True:
+-           validar = True #Cumple el requisito de tener mayuscula, minuscula, numeros y no alfanuméricos
+-        else:
+-           correcto=False #uno o mas requisitos de mayuscula, minuscula, numeros y no alfanuméricos no se cumple
+-           
+-        if validar == True and correcto==False:
+-           print("La contraseña elegida no es segura: debe contener letras minúsculas, mayúsculas, números y al menos 1 carácter no alfanumérico")
+-
+-        if validar == True and correcto ==True:
+-           return True
+\ No newline at end of file
++    validar = False  # que se vayan cumpliendo los requisitos uno a uno.
++    long = len(password)  # Calcula la longitud de la contraseña
++    espacio = False  # variable para identificar espacios
++    mayuscula = False  # variable para identificar letras mayúsculas
++    minuscula = False  # variable para contar identificar letras minúsculas
++    numeros = False  # variable para identificar números
++    y = password.isalnum()  # si es alfanumérica retona True
++    correcto = True  # verifica que hayan mayuscula, minuscula, numeros y no alfanuméricos
++
++    for carac in password:  # ciclo for que recorre caracter por caracter en la contraseña
++
++        if carac.isspace() == True:  # Saber si el caracter es un espacio
++            espacio = True  # si encuentra un espacio se cambia el valor user
++
++        if carac.isupper() == True:  # saber si hay mayuscula
++            mayuscula = True  # acumulador o contador de mayusculas
++
++        if carac.islower() == True:  # saber si hay minúsculas
++            minuscula = True  # acumulador o contador de minúsculas
++
++        if carac.isdigit() == True:  # saber si hay números
++            numeros = True  # acumulador o contador de numeros
++
++    if espacio == True:  # hay espacios en blanco
++        print("La contraseña no puede contener espacios")
++    else:
++        validar = True  # se cumple el primer requisito que no hayan espacios
++
++    if long < 8 and validar == True:
++        print("Mínimo 8 caracteres")
++        validar = False  # cambia a Flase si no se cumple el requisito móinimo de caracteres
++
++    if mayuscula == True and minuscula == True and numeros == True and y == False and validar == True:
++        validar = True  # Cumple el requisito de tener mayuscula, minuscula, numeros y no alfanuméricos
++    else:
++        # uno o mas requisitos de mayuscula, minuscula, numeros y no alfanuméricos no se cumple
++        correcto = False
++
++    if validar == True and correcto == False:
++        print("La contraseña elegida no es segura: debe contener letras minúsculas, mayúsculas, números y al menos 1 carácter no alfanumérico")
++
++    if validar == True and correcto == True:
++        return True
+diff --git a/Validador.py b/Validador.py
+index f48c86a..c20e682 100644
+--- a/Validador.py
++++ b/Validador.py
+@@ -1,15 +1,15 @@
+ import usuario
+ import passw
+ 
+-correcto=False
+-while correcto==False:
+-        nombre=input("Ingrese nombre de usuario: ")
+-        if usuario.nickname(nombre) == True:
+-            print("Usuario creado exitosamente")
+-            correcto=True
++correcto = False
++while correcto == False:
++    nombre = input("Ingrese nombre de usuario: ")
++    if usuario.nickname(nombre) == True:
++        print("Usuario creado exitosamente")
++        correcto = True
+ 
+-while correcto==True:
+-    contrasenia=input("Ingrese su Password: ")
+-    if passw.clave(contrasenia)==True:
++while correcto == True:
++    contrasenia = input("Ingrese su Password: ")
++    if passw.clave(contrasenia) == True:
+         print("Contraseña creada exitosamente")
+-        correcto=False
+\ No newline at end of file
++        correcto = False
+diff --git a/app.py b/app.py
+index 5cfed95..9a8a000 100644
+--- a/app.py
++++ b/app.py
+@@ -1,11 +1,14 @@
++import os
+ from flask import Flask
+ from flask_sqlalchemy import SQLAlchemy
+ 
+-app = Flask (__name__)
++app = Flask(__name__)
+ app.config['SQLAlchemy_DATABASE_URI'] = 'postgres://jjbocsmdipegxk:3d71afcd6756199393a25037b52dd43d576770b44a15464c72947aec12865130@ec2-52-0-93-3.compute-1.amazonaws.com:5432/d7fvitj0ia8476'
+ 
+-database = SQLAlchemy(app)
++db = SQLAlchemy(app)
+ 
+-@app.route('/')
+-def hello():
+-    return "Ola k ase"
+\ No newline at end of file
++if __name__ == '__main__':
++    from rutas import *
++
++    db.create_all()
++    app.run(host='0.0.0.0', port=5000)
+diff --git a/modelos/Cita.py b/modelos/Cita.py
+new file mode 100644
+index 0000000..7a0b530
+--- /dev/null
++++ b/modelos/Cita.py
+@@ -0,0 +1,19 @@
++from app import db
++
++
++class Cita(db.Model):
++    id = db.Column(db.Integer, primary_key=True)
++    horario = db.Column(db.String(120), unique=False, nullable=False)
++    sede = db.Column(db.String(120), unique=False, nullable=False)
++    profesional = db.Column(db.String(120), unique=False, nullable=False)
++    id_horario = db.Column(db.Integer, db.ForeignKey(
++        'horario.id'), nullable=False)
++    id_sede = db.Column(db.Integer, db.ForeignKey(
++        'sede.id'), nullable=False)
++    id_profesional = db.Column(db.Integer, db.ForeignKey(
++        'profesional.id'), nullable=False)
++    id_usuario = db.Column(db.Integer, db.ForeignKey(
++        'usuario.id'), nullable=True)
++    asignada = db.Column(db.Boolean, unique=False, nullable=False)
++    diagnostico = db.Column(db.String(120), unique=False, nullable=False)
++    medicamentos = db.Column(db.String(120), unique=False, nullable=False)
+diff --git a/modelos/Horario.py b/modelos/Horario.py
+new file mode 100644
+index 0000000..e3d7ff2
+--- /dev/null
++++ b/modelos/Horario.py
+@@ -0,0 +1,6 @@
++from app import db
++
++
++class Horario (db.Model):
++    id = db.Column(db.Integer, primary_key=True)
++    hora = db.Column(db.String(120), unique=False, nullable=False)
+diff --git a/modelos/Perfil.py b/modelos/Perfil.py
+new file mode 100644
+index 0000000..6c09354
+--- /dev/null
++++ b/modelos/Perfil.py
+@@ -0,0 +1,7 @@
++from app import db
++
++
++class Perfil (db.Model):
++    id = db.Column(db.Integer, primary_key=True)
++    nombre = db.Column(db.String(120), unique=False, nullable=False)
++    descripcion = db.Column(db.String(120), unique=False, nullable=False)
+diff --git a/modelos/Profesional.py b/modelos/Profesional.py
+new file mode 100644
+index 0000000..afed65e
+--- /dev/null
++++ b/modelos/Profesional.py
+@@ -0,0 +1,7 @@
++from app import db
++
++
++class Profesional(db.Model):
++    id = db.Column(db.Integer, primary_key=True)
++    nombre = db.Column(db.String(120), unique=False, nullable=False)
++    ocupacion = db.Column(db.String(120), unique=False, nullable=False)
+diff --git a/modelos/Sede.py b/modelos/Sede.py
+new file mode 100644
+index 0000000..67e9925
+--- /dev/null
++++ b/modelos/Sede.py
+@@ -0,0 +1,10 @@
++from app import db
++
++
++class Sede(db.Model):
++    id = db.Column(db.Integer, primary_key=True)
++    pais = db.Column(db.String(120), unique=False, nullable=False)
++    ciudad = db.Column(db.String(120), unique=False, nullable=False)
++    departamento = db.Column(db.String(120), unique=False, nullable=False)
++    comuna = db.Column(db.String(120), unique=False, nullable=True)
++    direccion = db.Column(db.String(120), unique=False, nullable=False)
+diff --git a/modelos/Usuario.py b/modelos/Usuario.py
+new file mode 100644
+index 0000000..f870904
+--- /dev/null
++++ b/modelos/Usuario.py
+@@ -0,0 +1,42 @@
++from app import db
++
++
++class Usuario (db.Model):
++    id = db.Column(db.Integer, primary_key=True)
++    tipo_documento = db.Column(db.String(255), unique=False, nullable=False)
++    documento = db.Column(db.Integer, unique=True, nullable=False)
++    nombre = db.Column(db.String(120), unique=False, nullable=False)
++    genero = db.Column(db.String(120), unique=False, nullable=False)
++    edad = db.Column(db.Integer, unique=False, nullable=False)
++    contrasena = db.Column(db.String(120), unique=False, nullable=False)
++    perfil = db.Column(db.Integer, db.ForeignKey(
++        'perfil.id'), nullable=False)
++    correo = db.Column(db.String(120), unique=False, nullable=False)
++    telefono = db.Column(db.Integer, unique=False, nullable=False)
++
++    def __repr__(self):
++        return "<Usuario: {}, {}>".format(self.id, self.nombre)
++
++
++def crear_usuario(usuario):
++    tipo_documento = usuario['tipo_documento']
++    documento = int(usuario['documento'])
++    nombre = usuario['nombre']
++    genero = usuario['genero']
++    edad = int(usuario['edad'])
++    telefono = int(usuario['telefono'])
++    correo = usuario['correo']
++    contrasena = usuario['contrasena']
++
++    usuario = Usuario(tipo_documento=tipo_documento,
++                      documento=documento,
++                      nombre=nombre,
++                      genero=genero,
++                      edad=edad,
++                      contrasena=contrasena,
++                      perfil=3,
++                      correo=correo,
++                      telefono=telefono)
++    db.session.add(usuario)
++    db.session.commit()
++    return False
+diff --git a/patch.patch b/mypatch.patch
+similarity index 100%
+rename from patch.patch
+rename to mypatch.patch
+index e69de29..f8239d3 100644
+diff --git a/requirements.txt b/requirements.txt
+index f59d88e..50c240d 100644
+Binary files a/requirements.txt and b/requirements.txt differ
+diff --git a/rutas.py b/rutas.py
+new file mode 100644
+index 0000000..a8370d7
+--- /dev/null
++++ b/rutas.py
+@@ -0,0 +1,28 @@
++from flask import render_template, request
++
++from modelos.Usuario import Usuario, crear_usuario
++from modelos.Perfil import Perfil
++from modelos.Horario import Horario
++from modelos.Cita import Cita
++from modelos.Profesional import Profesional
++from modelos.Sede import Sede
++
++from app import app
++
++
++@app.route('/register', methods=['GET', 'POST'])
++def register():
++    if request.method == 'POST':
++        result = crear_usuario(request.form)
++        if result == True:
++            return 'User created successfully'
++        else:
++            return 'Error creating user'
++    return render_template('register.html')
++
++
++@app.route('/users')
++def get_users():
++    usuarios = Usuario.query.all()
++    print(usuarios)
++    return render_template('usuarios.html', usuarios=usuarios)
+diff --git a/templates/register.html b/templates/register.html
+new file mode 100644
+index 0000000..cd3bb22
+--- /dev/null
++++ b/templates/register.html
+@@ -0,0 +1,24 @@
++<html>
++  <main>
++    <form action="/register" method="POST">
++      <label for="tipo_documento">Tipo documento</label>
++      <input type="text" name="tipo_documento" />
++      <label for="documento">Documento</label>
++      <input type="text" name="documento" />
++      <label for="nombre">Nombre</label>
++      <input type="text" name="nombre" />
++      <label for="genero">Genero</label>
++      <input type="text" name="genero" />
++      <label for="edad">Edad</label>
++      <input type="text" name="edad" />
++      <label for="telefono">Telefono</label>
++      <input type="text" name="telefono" />
++      <label for="correo">Correo</label>
++      <input type="text" name="correo" />
++      <label for="contrasena">Contrasena</label>
++      <input type="password" name="contrasena" />
++      <label></label>
++      <input type="submit" value="Register" />
++    </form>
++  </main>
++</html>
+diff --git a/templates/usuarios.html b/templates/usuarios.html
+new file mode 100644
+index 0000000..0f1a9f8
+--- /dev/null
++++ b/templates/usuarios.html
+@@ -0,0 +1,5 @@
++<html>
++	{% for usuario in usuarios %}
++		<p>{{usuario}}</p>
++	{% endfor %}
++</html>
+\ No newline at end of file
+diff --git a/usuarioChecker.py b/usuarioChecker.py
+new file mode 100644
+index 0000000..39ff572
+--- /dev/null
++++ b/usuarioChecker.py
+@@ -0,0 +1,15 @@
++def nickname(nombre_usuario):
++    long = len(nombre_usuario)  # Calcular la longitud del nomre de usuario
++    y = nombre_usuario.isalnum()  # Calcula que la cadena contenga valores alfanuméricos
++
++    if y == False:  # La cadena contiene valores no alfanuméricos
++        print("El nombre de usuario puede contener solo letras y números")
++
++    if long < 6:
++        print("El nombre de usuario debe contener al menos 6 caracteres")
++
++    if long > 12:
++        print("El nombre de usuario no puede contener más de 12 caracteres")
++
++    if long > 5 and long < 13 and y == True:
++        return True  # Verdadero si el tamaño es mayor a 5 y menor a 13
