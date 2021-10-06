@@ -1,4 +1,4 @@
-import usuario
+import usuarioChecker
 import passw
 
 correcto = False
