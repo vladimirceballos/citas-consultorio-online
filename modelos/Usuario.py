@@ -1,7 +1,10 @@
-from app import db
+from app import db 
 
 
 class Usuario (db.Model):
+    
+    __tablename__='usuario'
+    
     id = db.Column(db.Integer, primary_key=True)
     tipo_documento = db.Column(db.String(255), unique=False, nullable=False)
     documento = db.Column(db.Integer, unique=True, nullable=False)
@@ -29,14 +32,14 @@ def crear_usuario(usuario):
     contrasena = usuario['contrasena']
 
     usuario = Usuario(tipo_documento=tipo_documento,
-                      documento=documento,
-                      nombre=nombre,
-                      genero=genero,
-                      edad=edad,
-                      contrasena=contrasena,
-                      perfil=3,
-                      correo=correo,
-                      telefono=telefono)
+                    documento=documento,
+                    nombre=nombre,
+                    genero=genero,
+                    edad=edad,
+                    contrasena=contrasena,
+                    perfil=3,
+                    correo=correo,
+                    telefono=telefono)
     db.session.add(usuario)
     db.session.commit()
     return False
