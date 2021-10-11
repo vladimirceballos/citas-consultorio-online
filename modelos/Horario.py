@@ -8,9 +8,7 @@ class Horario (db.Model):
 
 def crear_horario(horario):
     hora = horario['hora']
-    
-
     hora = hora (hora=hora) 
-    db.session.add(cita)
+    db.session.add(hora)
     db.session.commit()
     return False

@@ -1,4 +1,5 @@
 from app import db 
+from app import bcrypt
 
 
 class Usuario (db.Model):
@@ -20,7 +21,14 @@ class Usuario (db.Model):
     def __repr__(self):
         return "<Usuario: {}, {}>".format(self.id, self.nombre)
 
+def __init__(self,documento,contrasena):
+    self.documento=documento
+    self.contrasena=bcrypt.generate_password_hash(contrasena).decode('utf8')
+    self.id=3
+    
+    
 
+@staticmethod
 def crear_usuario(usuario):
     tipo_documento = usuario['tipo_documento']
     documento = int(usuario['documento'])
@@ -43,3 +51,17 @@ def crear_usuario(usuario):
     db.session.add(usuario)
     db.session.commit()
     return False
+
+@staticmethod
+def get_documento(documento_find):
+    return Usuario.query.filter_by(documento=documento_find).first()
+
+@staticmethod
+def login(documento, contrasena):
+    success= False
+    user= Usuario.get_documento(documento)
+    
+    if (user):
+        success= bcrypt.check_password_hash(user.contrasena, contrasena)
+    
+    return success

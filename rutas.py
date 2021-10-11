@@ -10,8 +10,8 @@ from app import app
 from flask import Flask
 
 @app.route('/')
-    def index():
-        return render_template('index.html')
+def index():
+    return render_template('index.html')
     
 
 @app.route('/register', methods=['GET', 'POST'])
@@ -21,18 +21,21 @@ def register():
     elif request.method == 'POST':
         result = crear_usuario(request.form)
         if result == True:
-            return 'User created successfully'
+            return redirect (url_for('login'))
         else:
             return 'Error creating user'
-    return redirect (url_for('login')),
+
 
 @app.route('/login', methods=['GET','POST'])
 def login():
-    documento=request.form["documento"]
-    contrasena=request.form["contrasena"]
-    valida_usuario=Usuario.login(documento,contrasena)
-    if (valida_usuario):
-        return redirect (url_for('/agendamiento'))
+    if request.method == 'POST':
+        documento=request.form["documento"]
+        contrasena=request.form["contrasena"]
+        valida_usuario=Usuario.login(documento,contrasena)
+        if (valida_usuario):
+            return redirect (url_for('/agendamiento'))
+    elif request.method=='GET':
+        return render_template('login.html')
 
 
 
@@ -40,16 +43,17 @@ def login():
 def show_appointment():
     if request.method == 'GET':
         cita = Cita.query.with_entities(Cita.id, Cita.horario, Cita.sede, Cita.profesional).filter(Cita.id_usuario==None)
-        usuario=Usuario.query.filter_by(documento=request.form)
+        usuario=Usuario.query.filter_by(documento=request.form['documento'])
         print(cita.all())
-        if len(usuario.all())>0:
-            return render_template('list_citas.html',all_citas=cita)
+        return render_template('list_citas.html',all_citas=cita)
     
     
     
 def appointment():
     if request.method == 'POST':
-        result = agendar_cita(request.form)
+        id_cita=request.form['id_cita']
+        id_usuario=request.form['id_usuario']
+        result = Cita.agendar_cita(id_cita,id_usuario)
         if result == True:
             return 'Appointment created successfully'
         else:

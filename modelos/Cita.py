@@ -36,25 +36,25 @@ def crear_cita(cita):
     return False
     
 @staticmethod   
-def agendar_cita(cita):
+def agendar_cita(id_cita, id_usuario):
     cita_seleccionada= Cita.query.filter_by(id=id_cita)
-    cita_seleccionada.id_usuario= ['id_usuario']
+    cita_seleccionada.id_usuario= id_usuario
     db.session.commit()
     
     
 @staticmethod   
-def list_historial(cita):
+def list_historial(id_usuario):
     historial=[]
-    historial=Cita.query.with_entities(Cita.id, Cita.horario, Cita.sede, Cita.profesional, Cita.medicamentos,Cita.diagnostico).filter_by(Cita.id_usuario)
+    historial=Cita.query.with_entities(Cita.id, Cita.horario, Cita.sede, Cita.profesional, Cita.medicamentos,Cita.diagnostico).filter_by(Cita.id_usuario==id_usuario)
     return(historial)
     
     
 @staticmethod
-def add_historial(cita):
+def add_historial(id_cita, form):
     cita=Cita.query.get.filter_by(id=id_cita)
     print(cita)
-    cita.medicamentos= request.form['medicamentos']
-    cita.diagnostico= request.form['diagnostico']
+    cita.medicamentos= form['medicamentos']
+    cita.diagnostico= form['diagnostico']
     db.session.commit()
     
     
